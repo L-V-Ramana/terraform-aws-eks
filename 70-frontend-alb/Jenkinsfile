@@ -12,23 +12,29 @@ pipeline{
     stages{
         stage(terraform init vpc){
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh """
                         cd 00-vpc
                         terraform init -reconfigure
                     """
                 }
+                }
+                
             }
         }
     
         stage(terraform plan vpc){
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh"""
                         cd 00-vpc
                         terraform plan
                     """
                 }
+                }
+                
             }
         }
 
@@ -39,12 +45,14 @@ pipeline{
                 submitter "alice,bob"
             }
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh """
                         cd 00-vpc
                         terraform plan -auto-approve
                     """
                 }
+            }
+                
             }
         }
     }

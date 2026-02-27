@@ -10,45 +10,54 @@ pipeline{
         ansicolor('xtrem')
     }
     stages{
-        stage(terraform init vpc){
+        stage('init'){
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh """
                         cd 00-vpc
                         terraform init -reconfigure
                     """
+                    }
                 }
+                
             }
         }
     
-        stage(terraform plan vpc){
+        stage('plan'){
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh"""
                         cd 00-vpc
                         terraform plan
                     """
+                    }
                 }
+                
             }
         }
 
-        stage(terraform apply){
+        stage('apply'){
             input {
                 message "Should we continue?"
                 ok "Yes, we should."
                 submitter "alice,bob"
             }
             steps{
-                withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+                script{
+                     withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh """
                         cd 00-vpc
                         terraform plan -auto-approve
                     """
+                    }
                 }
+               
             }
         }
 
-        stage(triggering sg fom vpc){
+        stage('triggering sg fom vpc'){
             steps{
                 build job: '10-sg'
                 parameters: [

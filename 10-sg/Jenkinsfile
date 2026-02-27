@@ -7,44 +7,52 @@ pipeline{
     }
 
     stages{
-        stage(terraform init){
+        stage('terraform init'){
             steps{
-                withAWS(credentials: 'aws-auth',region:'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth',region:'us-east-1'){
                     sh"""
                         cd 10-sg
                         terraform init -reconfigure
                     """
                 }
+                }
             }
         }
 
-        stage(terrafrom plan){
+        stage('terrafrom plan'){
             steps{  
-                withAWS(credentials: 'aws-auth',region:'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth',region:'us-east-1'){
                         sh"""
                             cd 10-sg
                             terraform plan
                         """
                 }
+                }
+                
             }
 
         }
 
-         stage(terrafrom apply){
+         stage('terrafrom apply'){
             steps{  
-                withAWS(credentials: 'aws-auth',region:'us-east-1'){
+                script{
+                    withAWS(credentials: 'aws-auth',region:'us-east-1'){
                         sh"""
                             cd 10-sg
                             terraform apply -auto-approve
                         """
                 }
+                }
+                
             }
 
         }
 
-        stage(bastion eks alb acm){
+        stage('bastion eks alb acm'){
             parallel{
-                stage(triggering bastion){
+                stage('triggering bastion'){
                     build job: '20-bastion'
                     parameters:[
 
@@ -52,12 +60,12 @@ pipeline{
                     propagate: false
                     wait: fasle
                 }
-                stage(triggering acm){
+                stage('triggering acm'){
                     build job: '60-acm'
                     propagete: false
                     wait:false
                 }
-                stage(triggering eks){
+                stage('triggering eks'){
                     build job: '80-eks'
                     propagate: false
                     wait: false
@@ -66,7 +74,7 @@ pipeline{
             }
         }
 
-        stage(frontend-alb){
+        stage('frontend-alb'){
             steps{
                 build job: '70-frontend-alb'
                 propagate: false
