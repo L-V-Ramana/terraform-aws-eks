@@ -7,7 +7,7 @@ pipeline{
         project='robshop'
     }
     options{
-        ansicolor('xtrem')
+        ansiColor('xtrem')
     }
     stages{
         stage('init'){
@@ -60,12 +60,6 @@ pipeline{
         stage('triggering sg fom vpc'){
             steps{
                 build job: '10-sg'
-                parameters: [
-                        // string(name: '',value'')
-
-                ]
-                propagate: true
-                wait: true
             }
         }
     }
