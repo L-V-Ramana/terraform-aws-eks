@@ -53,19 +53,34 @@ pipeline{
         stage('bastion eks alb acm'){
             parallel{
                 stage('triggering bastion'){
-                    build job: '20-bastion'
-                    propagate: false
-                    wait: false
+                    steps{
+                        script{
+                            build job: '20-bastion'
+                            propagate: false
+                            wait: false
+                        }
+                    }
+                    
                 }
                 stage('triggering acm'){
-                    build job: '60-acm'
-                    propagete: false
-                    wait:false
+                    steps{
+                        script{
+                            build job: '60-acm'
+                            propagete: false
+                            wait:false
+                        }
+                    }
+                   
                 }
                 stage('triggering eks'){
-                    build job: '80-eks'
-                    propagate: false
-                    wait: false
+                        steps{
+                            script{
+                                build job: '80-eks'
+                                propagate: false
+                                wait: false
+                            }
+                        }
+                    
                 }
 
             }
