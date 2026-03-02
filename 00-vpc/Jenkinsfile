@@ -49,7 +49,7 @@ pipeline{
                      withAWS(credentials: 'aws-auth', region: 'us-east-1'){
                     sh """
                         cd 00-vpc
-                        terraform plan -auto-approve
+                        terraform apply -auto-approve
                     """
                     }
                 }
