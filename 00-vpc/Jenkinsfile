@@ -24,7 +24,7 @@ pipeline{
             }
         }
 
-        stage('init'){
+        stage('destroy'){
             steps{
                 script{
                     withAWS(credentials: 'aws-auth', region: 'us-east-1'){
