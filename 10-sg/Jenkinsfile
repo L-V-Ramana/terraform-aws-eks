@@ -54,11 +54,8 @@ pipeline{
             parallel{
                 stage('triggering bastion'){
                     build job: '20-bastion'
-                    parameters:[
-
-                    ]
                     propagate: false
-                    wait: fasle
+                    wait: false
                 }
                 stage('triggering acm'){
                     build job: '60-acm'
