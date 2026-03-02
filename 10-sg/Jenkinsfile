@@ -88,9 +88,13 @@ pipeline{
 
         stage('frontend-alb'){
             steps{
-                build job: '70-frontend-alb'
+                script{
+                    
+                 build job: '70-frontend-alb'
                 propagate: false
                 wait: false
+                }
+               
             }
         }
     }
