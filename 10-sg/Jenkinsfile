@@ -70,7 +70,7 @@ pipeline{
                         
                             build job: '20-bastion'
                             propagate: false
-                            wait: false
+                            // wait: false
                         
                     }
                     
@@ -80,7 +80,7 @@ pipeline{
                        
                             build job: '60-acm'
                             propagete: false
-                            wait:false
+                            // wait:false
                         
                     }
                    
@@ -90,7 +90,7 @@ pipeline{
                             
                                 build job: '80-eks'
                                 propagate: false
-                                wait: false
+                                // wait: false
                             
                         }
                     
