@@ -7,7 +7,7 @@ pipeline{
         project='robshop'
     }
     options{
-        ansicolor('xtrem')
+        ansiColor('xtrem')
     }
     stages{
         stage('terraform init vpc'){
