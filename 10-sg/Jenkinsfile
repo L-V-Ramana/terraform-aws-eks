@@ -19,13 +19,27 @@ pipeline{
                 }
             }
         }
-          stage('terrafrom destroy'){
+        //   stage('terrafrom destroy'){
+        //     steps{  
+        //         script{
+        //             withAWS(credentials: 'aws-auth',region:'us-east-1'){
+        //                 sh"""
+        //                     cd 10-sg
+        //                     terraform destroy -auto-approve
+        //                 """
+        //         }
+        //         }
+                
+        //     }
+
+        // }
+        stage('terrafrom plan'){
             steps{  
                 script{
                     withAWS(credentials: 'aws-auth',region:'us-east-1'){
                         sh"""
                             cd 10-sg
-                            terraform destroy -auto-approve
+                            terraform plan
                         """
                 }
                 }
@@ -33,83 +47,69 @@ pipeline{
             }
 
         }
-        // stage('terrafrom plan'){
-        //     steps{  
-        //         script{
-        //             withAWS(credentials: 'aws-auth',region:'us-east-1'){
-        //                 sh"""
-        //                     cd 10-sg
-        //                     terraform plan
-        //                 """
-        //         }
-        //         }
+
+         stage('terrafrom apply'){
+            steps{  
+                script{
+                    withAWS(credentials: 'aws-auth',region:'us-east-1'){
+                        sh"""
+                            cd 10-sg
+                            terraform apply -auto-approve
+                        """
+                }
+                }
                 
-        //     }
+            }
 
-        // }
+        }
 
-        //  stage('terrafrom apply'){
-        //     steps{  
-        //         script{
-        //             withAWS(credentials: 'aws-auth',region:'us-east-1'){
-        //                 sh"""
-        //                     cd 10-sg
-        //                     terraform apply -auto-approve
-        //                 """
-        //         }
-        //         }
-                
-        //     }
-
-        // }
-
-        // stage('bastion eks alb acm'){
-        //     parallel{
-        //         stage('triggering bastion'){
-        //             steps{
-        //                 script{
-        //                     build job: '20-bastion'
-        //                     propagate: false
-        //                     wait: false
-        //                 }
-        //             }
+        stage('bastion eks alb acm'){
+            parallel{
+                stage('triggering bastion'){
+                    steps{
+                        script{
+                            build job: '20-bastion'
+                            propagate: false
+                            wait: false
+                        }
+                    }
                     
-        //         }
-        //         stage('triggering acm'){
-        //             steps{
-        //                 script{
-        //                     build job: '60-acm'
-        //                     propagete: false
-        //                     wait:false
-        //                 }
-        //             }
+                }
+                stage('triggering acm'){
+                    steps{
+                        script{
+                            build job: '60-acm'
+                            propagete: false
+                            wait:false
+                        }
+                    }
                    
-        //         }
-        //         stage('triggering eks'){
-        //                 steps{
-        //                     script{
-        //                         build job: '80-eks'
-        //                         propagate: false
-        //                         wait: false
-        //                     }
-        //                 }
+                }
+                stage('triggering eks'){
+                        steps{
+                            script{
+                                build job: '80-eks'
+                                propagate: false
+                                wait: false
+                            }
+                        }
                     
-        //         }
+                }
 
-        //     }
-        // }
+            }
+        }
 
-        // stage('frontend-alb'){
-        //     steps{
-        //         script{
+        stage('frontend-alb'){
+            steps{
+                script{
                     
-        //          build job: '70-frontend-alb'
-        //         propagate: false
-        //         wait: false
-        //         }
+                 build job: '70-frontend-alb'
+                propagate: false
+                wait: false
+                }
                
-        //     }
-        // }
+            }
+        }
     }
 
 }
