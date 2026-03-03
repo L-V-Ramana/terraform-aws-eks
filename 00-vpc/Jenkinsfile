@@ -24,19 +24,19 @@ pipeline{
             }
         }
 
-        stage('destroy'){
-            steps{
-                script{
-                    withAWS(credentials: 'aws-auth', region: 'us-east-1'){
-                    sh """
-                        cd 00-vpc
-                        terraform destroy -auto-approve
-                    """
-                    }
-                }
+        // stage('destroy'){
+        //     steps{
+        //         script{
+        //             withAWS(credentials: 'aws-auth', region: 'us-east-1'){
+        //             sh """
+        //                 cd 00-vpc
+        //                 terraform destroy -auto-approve
+        //             """
+        //             }
+        //         }
                 
-            }
-        }
+        //     }
+        // }
     
         stage('plan'){
             steps{
