@@ -10,7 +10,7 @@ pipeline{
         ansicolor('xtrem')
     }
     stages{
-        stage(terraform init vpc){
+        stage('terraform init vpc'){
             steps{
                     script{
                         withAWS(credentials: 'aws-auth', region: 'us-east-1'){
@@ -24,7 +24,7 @@ pipeline{
             }
         }
     
-        stage(terraform plan vpc){
+        stage('terraform plan vpc'){
             steps{
                     script{
                         withAWS(credentials: 'aws-auth', region: 'us-east-1'){
@@ -38,7 +38,7 @@ pipeline{
             }
         }
 
-        stage(terraform apply){
+        stage('terraform apply'){
             // input {
             //     message "Should we continue?"
             //     ok "Yes, we should."
