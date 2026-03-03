@@ -69,7 +69,7 @@ pipeline{
                     steps{
                         
                             build job: '20-bastion'
-                            propagate: false
+                            // propagate: false
                             // wait: false
                         
                     }
@@ -79,7 +79,7 @@ pipeline{
                     steps{
                        
                             build job: '60-acm'
-                            propagete: false
+                            // propagete: false
                             // wait:false
                         
                     }
@@ -89,7 +89,7 @@ pipeline{
                         steps{
                             
                                 build job: '80-eks'
-                                propagate: false
+                                // propagate: false
                                 // wait: false
                             
                         }
