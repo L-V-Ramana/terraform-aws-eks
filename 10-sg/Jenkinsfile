@@ -19,20 +19,20 @@ pipeline{
                 }
             }
         }
-        //   stage('terrafrom destroy'){
-        //     steps{  
-        //         script{
-        //             withAWS(credentials: 'aws-auth',region:'us-east-1'){
-        //                 sh"""
-        //                     cd 10-sg
-        //                     terraform destroy -auto-approve
-        //                 """
-        //         }
-        //         }
+          stage('terrafrom destroy'){
+            steps{  
+                script{
+                    withAWS(credentials: 'aws-auth',region:'us-east-1'){
+                        sh"""
+                            cd 10-sg
+                            terraform destroy -auto-approve
+                        """
+                }
+                }
                 
-        //     }
+            }
 
-        // }
+        }
         stage('terrafrom plan'){
             steps{  
                 script{
